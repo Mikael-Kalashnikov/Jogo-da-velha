@@ -4,6 +4,8 @@ using namespace std;
 int main() {
 
 	char player1[20], player2[20];
+	//pontos totais deve ser um vetor que armazene a pontuação de cada rodada, a ultima posição dever ser a soma das outras posições
+	int total_points1 = 2, total_points2 = 0;
 	int rounds, difficulty;
 
 	cout << "-----JOGO DA VELHA-----\n\n";
@@ -57,4 +59,56 @@ int main() {
 		cout << "\nO jogador " << player1 << " inicia a partida com X\n"
 		<< "O jogador " << player2 << " joga em seguida com O\n"
 			<< "\nINICIANDO JOGO...\n";
+
+		switch (difficulty)
+		{
+		case 1:
+			cout << "\t3X3:\n";
+			for (int i = 0; i < rounds; i++) {
+				cout << "\tRodada " << i + 1 << endl
+					<< "\t\t__|__|__\n"
+					<< "\t\t__|__|__\n"
+					<< "\t\t  |  |  \n";
+			}
+			break;
+
+		case 2:
+			cout << "\t4X4:\n";
+			for (int i = 0; i < rounds; i++) {
+				cout << "\tRodada " << i + 1 << endl 
+					<< "\t\t__|__|__|__\n"
+					<< "\t\t__|__|__|__\n"
+					<< "\t\t__|__|__|__\n"
+					<< "\t\t  |  |  |  \n";
+			}
+			break;
+
+		case 3:
+			cout << "\t5X5:\n";
+			for (int i = 0; i < rounds; i++) {
+				cout << "\tRodada " << i + 1 << endl 
+					<< "\t\t__|__|__|__|__\n"
+					<< "\t\t__|__|__|__|__\n"
+					<< "\t\t__|__|__|__|__\n"
+					<< "\t\t__|__|__|__|__\n"
+					<< "\t\t  |  |  |  |  \n";
+			}
+			break;
+		}
+		cout << "Resultado:\n";
+
+		if (total_points1 > total_points2) {
+			cout << "Vencedor: " << player1 << endl
+				<< "Pontuacao: " << total_points1 << endl;
+
+			cout << endl << player2
+				<< "\nPontuacao: " << total_points2 << endl;
+		}
+		else {
+			cout << "Vencedor: " << player2 << endl
+				<< "Pontuacao: " << total_points2 << endl;
+
+			cout << endl << player1
+				<< "\nPontuacao: " << total_points1 << endl;
+		}
 }
