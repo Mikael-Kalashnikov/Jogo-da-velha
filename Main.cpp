@@ -29,11 +29,13 @@ int main() {
         cin >> numRodadas;
     } while (numRodadas != 1 && numRodadas != 3 && numRodadas != 5 && numRodadas != 7 && numRodadas != 9);
 
+    // Criado uma matriz 2 por n+1 para armazenar a pontuação de cada rodada
     int** pontuacao = new int* [2];
-
+    // A ultima posição é destinada a soma das anteriores
     for (int i = 0; i < 2; i++) {
         pontuacao[i] = new int[numRodadas + 1];
     }
+
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < numRodadas + 1; j++) {
             pontuacao[i][j] = 0;
@@ -79,19 +81,24 @@ int main() {
             if (checarVencedor(tab, jogadorAtual)) {
                 fimdeJogo = true;
                 vencedor = (jogadorAtual == 'X') ? jogadores[0].nome : jogadores[1].nome;
+                vencedor = (jogadorAtual == 'X') ? pontuacao[0][round - 1] += 2 : pontuacao[1][round - 1] += 2;
             }
 
             // Verifica se o jogo está empatado
             if (checarEmpate(tab)) {
                 fimdeJogo = true;
+                pontuacao[0][round - 1] += 1;
+                pontuacao[1][round - 1] += 1;
                 vencedor = "Empate";
             }
 
             // Alterna o jogador atual
-            if (jogadorAtual == 'X')
+            if (jogadorAtual == 'X') {
                 jogadorAtual = 'O';
-            else
+            }
+            else {
                 jogadorAtual = 'X';
+            }
         }
 
         if (fimdeJogo) {
@@ -103,21 +110,47 @@ int main() {
                 cout << "\nJogo empatado!\n" << endl;
             }
             else {
-                cout << "\nJogador vencedor da rodada " << round << ": " << vencedor << "\n" << endl;
+                if (jogadorAtual == 'O') {
+                    cout << "\nVencedor da rodada " << round << ": " << jogadores[0].nome << "\n" << endl;
+                }
+                else {
+                    cout << "\nVencedor da rodada " << round << ": " << jogadores[1].nome << "\n" << endl;
+                }
             }
-            // Reinicia o jogo para a próxima rodada
-            resetarTabuleiro(tab);
-            jogadorAtual = 'X';
-            fimdeJogo = false;
-            vencedor = "";
+                // Reinicia o jogo para a próxima rodada
+                resetarTabuleiro(tab);
+                jogadorAtual = 'X';
+                fimdeJogo = false;
+                vencedor = "";
+            }
         }
-        for (int i = 0; i < 2; i++) {
-            for (int j = 1; j <= numRodadas; j++) {
-                pontuacao[i][numRodadas] += pontuacao[i][j];
+            // Soma de todas as rodadas guardada na última posição da matriz 
+            for (int j = 0; j < numRodadas; j++) {
+                pontuacao[0][numRodadas] += pontuacao[0][j];
             }
+            for (int k = 0; k < numRodadas; k++) {
+                pontuacao[1][numRodadas] += pontuacao[1][k];
+            }
+    // A soma total dos pontos é atribuida ao registro de seu respectivo jogador
+    jogadores[0].pontos = pontuacao[0][numRodadas];
+    jogadores[1].pontos = pontuacao[1][numRodadas];
+
+    // Exibe a colocação de cada jogador, seu nome e sua pontuação em ordem descrescente
+    cout << "Colocacao\tNome\tPontuacao\n";
+    if (jogadores[0].pontos == jogadores[1].pontos) {
+        cout << "-\t" << jogadores[0].nome << "\t" << jogadores[0].pontos << " pontos" << endl;
+        cout << "-\t\t" << jogadores[1].nome << "\t" << jogadores[1].pontos << " pontos" << endl;
+    }
+    else {
+        if (jogadores[0].pontos > jogadores[1].pontos) {
+            cout << "Vencedor\t" << jogadores[0].nome << "\t" << jogadores[0].pontos << " pontos" << endl;
+            cout << "Segundo\t\t" << jogadores[1].nome << "\t" << jogadores[1].pontos << " pontos" << endl;
+        }
+        else {
+            cout << "Vencedor\t" << jogadores[1].nome << "\t" << jogadores[1].pontos << " pontos" << endl;
+            cout << "Segundo\t\t" << jogadores[0].nome << "\t" << jogadores[0].pontos << " pontos" << endl;
         }
     }
-    cout << jogadores[0].nome << ": " << pontuacao[0][numRodadas] << " pontos" << endl;
-    cout << jogadores[1].nome << ": " << pontuacao[1][numRodadas] << " pontos" << endl;
+    delete[] pontuacao;
     delete[] jogadores;
 }
