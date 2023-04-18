@@ -22,7 +22,7 @@ int main() {
     cout << "Digite o nome do Jogador 2 (O): ";
     cin >> jogadores[1].nome;
 
-    // Solicita a quantidade de rodadas
+    // Solicita a quantidade de rodadas a serem jogadas
     do {
         cout << "\nInforme a quantidade de rodadas a serem jogadas"
             << "\n[1] rodada - [3] rodadas - [5] rodadas - [7] rodadas - [9] rodadas:\n";
@@ -36,6 +36,7 @@ int main() {
         pontuacao[i] = new int[numRodadas + 1];
     }
 
+    // Inicializa toda a matriz de pontuação zerada
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < numRodadas + 1; j++) {
             pontuacao[i][j] = 0;
@@ -83,13 +84,14 @@ int main() {
                 vencedor = (jogadorAtual == 'X') ? jogadores[0].nome : jogadores[1].nome;
                 vencedor = (jogadorAtual == 'X') ? pontuacao[0][round - 1] += 2 : pontuacao[1][round - 1] += 2;
             }
-
-            // Verifica se o jogo está empatado
-            if (checarEmpate(tab)) {
-                fimdeJogo = true;
-                pontuacao[0][round - 1] += 1;
-                pontuacao[1][round - 1] += 1;
-                vencedor = "Empate";
+            else {
+                // Verifica se o jogo está empatado
+                if (checarEmpate(tab)) {
+                    fimdeJogo = true;
+                    pontuacao[0][round - 1] += 1;
+                    pontuacao[1][round - 1] += 1;
+                    vencedor = "Empate";
+                }
             }
 
             // Alterna o jogador atual
@@ -106,6 +108,7 @@ int main() {
             cout << "\nFim do jogo!\n" << endl;
             tabuleiro(tab);
 
+            // Exibe o resultado de cada rodada jogada
             if (vencedor == "Empate") {
                 cout << "\nJogo empatado!\n" << endl;
             }
