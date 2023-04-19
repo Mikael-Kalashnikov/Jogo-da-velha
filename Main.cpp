@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+#include <string>
 #include "Cabeçalho.h"
 using namespace std;
 
@@ -14,9 +16,35 @@ int main() {
     bool fimdeJogo = false; // Variável de controle do fim do jogo
     string vencedor = ""; // Nome do jogador vencedor
     int numRodadas; // Número de rodadas
+    int cont = 0;
 
+    ifstream fin;
+
+    // Abre arquivo para leitura de texto
+    fin.open("Ranking.txt");
+    if (!fin.is_open()) {
+        cout << "A abertura do arquivo falhou!" << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    // Conta a quantidade de linhas preenchidas existentes no arquivo
+    string line;
+    while (getline(fin, line)) {
+        cont++;
+    }
+
+    // Como a primeira linha é o cabeçalho, foi preciso subtrair 1, referente a essa linha
+    cont -= 1;
+
+    // Vetor dinâmico que armazena as informações do arquivo
+    Jogador* jogadoresArquivo = new Jogador[cont];
+
+    // Finalizado a leitura do arquivo
+    fin.close();
+
+    // Vetor dinâmico que armazena as informações dos jogadores
     Jogador* jogadores = new Jogador[2];
-
+    
     cout << "Digite o nome do Jogador 1 (X): ";
     cin >> jogadores[0].nome;
     cout << "Digite o nome do Jogador 2 (O): ";
@@ -141,8 +169,8 @@ int main() {
     // Exibe a colocação de cada jogador, seu nome e sua pontuação em ordem descrescente
     cout << "Colocacao\tNome\tPontuacao\n";
     if (jogadores[0].pontos == jogadores[1].pontos) {
-        cout << "-\t" << jogadores[0].nome << "\t" << jogadores[0].pontos << " pontos" << endl;
-        cout << "-\t\t" << jogadores[1].nome << "\t" << jogadores[1].pontos << " pontos" << endl;
+        cout << "Vencedor\t" << jogadores[0].nome << "\t" << jogadores[0].pontos << " pontos" << endl;
+        cout << "Segundo\t\t" << jogadores[1].nome << "\t" << jogadores[1].pontos << " pontos" << endl;
     }
     else {
         if (jogadores[0].pontos > jogadores[1].pontos) {
@@ -154,6 +182,20 @@ int main() {
             cout << "Segundo\t\t" << jogadores[0].nome << "\t" << jogadores[0].pontos << " pontos" << endl;
         }
     }
+    // Abre o arquivo para escrita
+    ofstream fout;
+    fout.open("Ranking.txt");
+    if (!fout.is_open()) {
+        cout << "A abertura do arquivo falhou!" << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    // Escreve no arquivo o nome e a pontuação do jogador
+    fout << jogadores[0].nome << "\t" << jogadores[0].pontos << endl;
+    fout << jogadores[1].nome << "\t\t" << jogadores[1].pontos << endl;
+    fout.close();
+
+    // Libera memória do vetor e da matriz de ponteiro
     delete[] pontuacao;
     delete[] jogadores;
 }

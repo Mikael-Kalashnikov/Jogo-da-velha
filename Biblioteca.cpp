@@ -13,7 +13,6 @@ void tabuleiro(char board[3][3]) {
         cout << endl;
     }
 }
-
 // Função para verificar se o jogador venceu
 bool checarVencedor(char board[3][3], char player) {
     // Verificação das linhas
