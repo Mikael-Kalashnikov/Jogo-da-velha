@@ -32,20 +32,35 @@ int main() {
     while (getline(fin, line)) {
         cont++;
     }
+    // Arquivo é fechado, pois chegou ao seu fim
+    fin.close();
 
-    // Como a primeira linha é o cabeçalho, foi preciso subtrair 1, referente a essa linha
-    cont -= 1;
+    // Aberto o arquivo para que seja realizado a leitura dos dados
+    fin.open("Ranking.txt");
+    char name[100];
+    fin.getline(name, 100);
 
     // Vetor dinâmico que armazena as informações do arquivo
-    Jogador* jogadoresArquivo = new Jogador[cont];
+    Jogador* jogadoresArquivo = new Jogador[cont+1];
 
+    for (int i = 0; i < cont; i++) {
+        fin >> jogadoresArquivo[i].nome;
+        fin >> jogadoresArquivo[i].pontos;
+    }
     // Finalizado a leitura do arquivo
     fin.close();
 
+    // Exibe as informações que foram passadas do arquivo para o vetor de ponteiro
+    cout << "---Ranking---\n"
+        << "Nome\tPontuacao\n";
+    for (int i = 0; i < cont-1; i++) {
+        cout << jogadoresArquivo[i].nome << "\t" << jogadoresArquivo[i].pontos << endl;
+    }
+    
     // Vetor dinâmico que armazena as informações dos jogadores
     Jogador* jogadores = new Jogador[2];
     
-    cout << "Digite o nome do Jogador 1 (X): ";
+    cout << "\nDigite o nome do Jogador 1 (X): ";
     cin >> jogadores[0].nome;
     cout << "Digite o nome do Jogador 2 (O): ";
     cin >> jogadores[1].nome;
@@ -182,6 +197,13 @@ int main() {
             cout << "Segundo\t\t" << jogadores[0].nome << "\t" << jogadores[0].pontos << " pontos" << endl;
         }
     }
+
+    jogadoresArquivo[cont-1].nome = jogadores[0].nome;
+    jogadoresArquivo[cont-1].pontos = jogadores[0].pontos;
+
+    jogadoresArquivo[cont].nome = jogadores[1].nome;
+    jogadoresArquivo[cont].pontos = jogadores[1].pontos;
+    
     // Abre o arquivo para escrita
     ofstream fout;
     fout.open("Ranking.txt");
@@ -191,11 +213,15 @@ int main() {
     }
 
     // Escreve no arquivo o nome e a pontuação do jogador
-    fout << jogadores[0].nome << "\t" << jogadores[0].pontos << endl;
-    fout << jogadores[1].nome << "\t\t" << jogadores[1].pontos << endl;
+    fout << "Nome\t\tPontuação\n";
+
+    for (int p = 0; p < cont+1; p++) {
+    fout << jogadoresArquivo[p].nome << "\t\t" << jogadoresArquivo[p].pontos << endl;
+    }
     fout.close();
 
     // Libera memória do vetor e da matriz de ponteiro
     delete[] pontuacao;
     delete[] jogadores;
+    delete[] jogadoresArquivo;
 }
