@@ -4,6 +4,16 @@
 #include "Cabeçalho.h"
 using namespace std;
 
+// Exibe as informações que foram passadas do arquivo para o vetor de ponteiro
+void ranking(Jogador* jogadores, int cont) {
+    cout << "-----Ranking-----\n"
+        << "Nome\tPontuacao\n";
+    for (int i = 0; i < cont - 1; i++) {
+        cout << jogadores[i].nome << "\t" << jogadores[i].pontos << endl;
+    }
+    cout << "-----------------\n";
+}
+
 // Função para imprimir o tabuleiro
 void tabuleiro(char board[3][3]) {
     cout << "  1 2 3" << endl;
@@ -54,6 +64,36 @@ void resetarTabuleiro(char board[3][3]) {
             board[i][j] = ' ';
         }
     }
+}
+
+// Exibe o resultado do jogo atual
+void resultado(Jogador* jogadores) {
+    cout << "Nome\t-\tPontuacao\n";
+    if (jogadores[0].pontos == jogadores[1].pontos) {
+        cout << jogadores[0].nome << "\t-\t" << jogadores[0].pontos << " pontos" << endl;
+        cout << jogadores[1].nome << "\t-\t" << jogadores[1].pontos << " pontos" << endl;
+    }
+    else {
+        if (jogadores[0].pontos > jogadores[1].pontos) {
+            cout << jogadores[0].nome << "\t-\t" << jogadores[0].pontos << " pontos\t*Vencedor*" << endl;
+            cout << jogadores[1].nome << "\t-\t" << jogadores[1].pontos << " pontos" << endl;
+        }
+        else {
+            cout << jogadores[1].nome << "\t-\t" << jogadores[1].pontos << " pontos\t*Vencedor*" << endl;
+            cout << jogadores[0].nome << "\t-\t" << jogadores[0].pontos << " pontos" << endl;
+        }
+    }
+}
+
+// Adiciona os jogadores do jogo atual para o vetor
+Jogador adicionarJogadores(Jogador* jogadoresArquivo, Jogador* jogadores, int cont) {
+    strcpy(jogadoresArquivo[cont - 1].nome, jogadores[0].nome);
+    jogadoresArquivo[cont - 1].pontos = jogadores[0].pontos;
+
+    strcpy(jogadoresArquivo[cont].nome, jogadores[1].nome);
+    jogadoresArquivo[cont].pontos = jogadores[1].pontos;
+
+    return *jogadoresArquivo;
 }
 
 // Função que ordena o vetor de modo crescente

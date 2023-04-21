@@ -18,6 +18,8 @@ int main() {
 
     // Abre arquivo para leitura de texto
     fin.open("Ranking.txt");
+
+    // Verifica se teve alguma falha ao abrir o arquivo
     if (!fin.is_open()) {
         cout << "A abertura do arquivo falhou!" << endl;
         exit(EXIT_FAILURE);
@@ -47,12 +49,7 @@ int main() {
     fin.close();
 
     // Exibe as informações que foram passadas do arquivo para o vetor de ponteiro
-    cout << "-----Ranking-----\n"
-        << "Nome\tPontuacao\n";
-    for (int i = 0; i < cont-1; i++) {
-        cout << jogadoresArquivo[i].nome << "\t" << jogadoresArquivo[i].pontos << endl;
-    }
-    cout << "-----------------\n";
+    ranking(jogadoresArquivo, cont);
 
     // Vetor dinâmico que armazena as informações dos jogadores
     Jogador* jogadores = new Jogador[2];
@@ -92,9 +89,9 @@ int main() {
         }
     }
 
-    cout << "\n-----------------------------"
+    cout << "\n---------------------------"
         << "\nBem-vindo ao Jogo da Velha!\n"
-        << "-----------------------------\n\n";
+        << "---------------------------\n\n";
 
     cout << jogadores[0].nome << " joga com (X) e "
          << jogadores[1].nome << " joga com (O)" << endl;
@@ -108,10 +105,10 @@ int main() {
 
             tabuleiro(tab);
             if (jogadorAtual == 'X') {
-                cout << "\nVez do jogador " << jogadores[0].nome << "(" << jogadorAtual << ")" << endl;
+                cout << "\nVez do jogador(a) " << jogadores[0].nome << "(" << jogadorAtual << ")" << endl;
             }
             else {
-                cout << "\nVez do jogador " << jogadores[1].nome << "(" << jogadorAtual << ")" << endl;
+                cout << "\nVez do jogador(a) " << jogadores[1].nome << "(" << jogadorAtual << ")" << endl;
             }
             cout << "\nDigite a linha (1, 2 ou 3): ";
             cin >> linha;
@@ -187,29 +184,12 @@ int main() {
     jogadores[0].pontos = pontuacao[0][numRodadas];
     jogadores[1].pontos = pontuacao[1][numRodadas];
 
-    // Exibe a colocação de cada jogador, seu nome e sua pontuação em ordem descrescente
-    cout << "Nome\t-\tPontuacao\n";
-    if (jogadores[0].pontos == jogadores[1].pontos) {
-        cout << jogadores[0].nome << "\t-\t" << jogadores[0].pontos << " pontos" << endl;
-        cout << jogadores[1].nome << "\t-\t" << jogadores[1].pontos << " pontos" << endl;
-    }
-    else {
-        if (jogadores[0].pontos > jogadores[1].pontos) {
-            cout << jogadores[0].nome << "\t-\t" << jogadores[0].pontos << " pontos\t*Vencedor*" << endl;
-            cout << jogadores[1].nome << "\t-\t" << jogadores[1].pontos << " pontos" << endl;
-        }
-        else {
-            cout << jogadores[1].nome << "\t-\t" << jogadores[1].pontos << " pontos\t*Vencedor*" << endl;
-            cout << jogadores[0].nome << "\t-\t" << jogadores[0].pontos << " pontos" << endl;
-        }
-    }
+    // Exibe o resultado do jogo atual
+    resultado(jogadores);
 
-    strcpy(jogadoresArquivo[cont - 1].nome, jogadores[0].nome);
-    jogadoresArquivo[cont-1].pontos = jogadores[0].pontos;
+    // Adiciona os jogadores do jogo atual para o vetor
+    adicionarJogadores(jogadoresArquivo, jogadores, cont);
 
-    strcpy(jogadoresArquivo[cont].nome, jogadores[1].nome);
-    jogadoresArquivo[cont].pontos = jogadores[1].pontos;
-    
     // Chama a função com os elementos já ordenados
     ordenaVetor(jogadoresArquivo, cont);
 
