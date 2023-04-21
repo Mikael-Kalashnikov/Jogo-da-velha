@@ -1,4 +1,6 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <string>
 #include "Cabeçalho.h"
 using namespace std;
 
@@ -52,4 +54,24 @@ void resetarTabuleiro(char board[3][3]) {
             board[i][j] = ' ';
         }
     }
+}
+
+// Função que ordena o vetor de modo crescente
+Jogador ordenaVetor(Jogador* vetor, int tamanho) {
+    for (int i = 0; i < tamanho + 1; i++) {
+        for (int j = 0; j < tamanho; j++) {
+            if (vetor[j].pontos < vetor[j + 1].pontos) {
+                int temp = vetor[j].pontos;
+                char temName[50];
+                strcpy(temName, vetor[j].nome);
+
+                vetor[j].pontos = vetor[j + 1].pontos;
+                strcpy(vetor[j].nome, vetor[j + 1].nome);
+
+                vetor[j + 1].pontos = temp;
+                strcpy(vetor[j + 1].nome, temName);
+            }
+        }
+    }
+    return *vetor;
 }

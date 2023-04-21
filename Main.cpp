@@ -1,13 +1,9 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <fstream>
 #include <string>
 #include "Cabeçalho.h"
 using namespace std;
-
-struct Jogador {
-    string nome;
-    int pontos;
-};
 
 int main() {
     char tab[3][3]; // Tabuleiro do jogo
@@ -37,8 +33,8 @@ int main() {
 
     // Aberto o arquivo para que seja realizado a leitura dos dados
     fin.open("Ranking.txt");
-    char name[100];
-    fin.getline(name, 100);
+    char name[50];
+    fin.getline(name, 50);
 
     // Vetor dinâmico que armazena as informações do arquivo
     Jogador* jogadoresArquivo = new Jogador[cont+1];
@@ -51,25 +47,29 @@ int main() {
     fin.close();
 
     // Exibe as informações que foram passadas do arquivo para o vetor de ponteiro
-    cout << "---Ranking---\n"
+    cout << "-----Ranking-----\n"
         << "Nome\tPontuacao\n";
     for (int i = 0; i < cont-1; i++) {
         cout << jogadoresArquivo[i].nome << "\t" << jogadoresArquivo[i].pontos << endl;
     }
-    
+    cout << "-----------------\n";
+
     // Vetor dinâmico que armazena as informações dos jogadores
     Jogador* jogadores = new Jogador[2];
     
     cout << "\nDigite o nome do Jogador 1 (X): ";
-    cin >> jogadores[0].nome;
+    cin.getline(jogadores[0].nome, 50);
     cout << "Digite o nome do Jogador 2 (O): ";
-    cin >> jogadores[1].nome;
+    cin.getline(jogadores[1].nome, 50);
 
     // Solicita a quantidade de rodadas a serem jogadas
     do {
         cout << "\nInforme a quantidade de rodadas a serem jogadas"
             << "\n[1] rodada - [3] rodadas - [5] rodadas - [7] rodadas - [9] rodadas:\n";
         cin >> numRodadas;
+        if (numRodadas != 1 && numRodadas != 3 && numRodadas != 5 && numRodadas != 7 && numRodadas != 9) {
+            cout << "\nOpcao invalida. Tente novamente\n";
+        }
     } while (numRodadas != 1 && numRodadas != 3 && numRodadas != 5 && numRodadas != 7 && numRodadas != 9);
 
     // Criado uma matriz 2 por n+1 para armazenar a pontuação de cada rodada
@@ -92,20 +92,26 @@ int main() {
         }
     }
 
-    cout << "\nBem-vindo ao Jogo da Velha!\n" << endl;
-    cout << jogadores[0].nome << "(X) e "
-         << jogadores[1].nome << "(O)\n" << endl;
+    cout << "\n-----------------------------"
+        << "\nBem-vindo ao Jogo da Velha!\n"
+        << "-----------------------------\n\n";
+
+    cout << jogadores[0].nome << " joga com (X) e "
+         << jogadores[1].nome << " joga com (O)" << endl;
 
     // Loop principal do jogo
     for (int round = 1; round <= numRodadas; round++) {
         while (!fimdeJogo) {
-            cout << "\nRodada " << round << "\n" << endl;
+            cout << "\n--------"
+                << "\nRodada " << round << "\n"
+                << "--------\n";
+
             tabuleiro(tab);
             if (jogadorAtual == 'X') {
-                cout << "\nVez do jogador " << jogadores[0].nome;
+                cout << "\nVez do jogador " << jogadores[0].nome << "(" << jogadorAtual << ")" << endl;
             }
             else {
-                cout << "\nVez do jogador " << jogadores[1].nome;
+                cout << "\nVez do jogador " << jogadores[1].nome << "(" << jogadorAtual << ")" << endl;
             }
             cout << "\nDigite a linha (1, 2 ou 3): ";
             cin >> linha;
@@ -182,28 +188,31 @@ int main() {
     jogadores[1].pontos = pontuacao[1][numRodadas];
 
     // Exibe a colocação de cada jogador, seu nome e sua pontuação em ordem descrescente
-    cout << "Colocacao\tNome\tPontuacao\n";
+    cout << "Nome\t-\tPontuacao\n";
     if (jogadores[0].pontos == jogadores[1].pontos) {
-        cout << "Vencedor\t" << jogadores[0].nome << "\t" << jogadores[0].pontos << " pontos" << endl;
-        cout << "Segundo\t\t" << jogadores[1].nome << "\t" << jogadores[1].pontos << " pontos" << endl;
+        cout << jogadores[0].nome << "\t-\t" << jogadores[0].pontos << " pontos" << endl;
+        cout << jogadores[1].nome << "\t-\t" << jogadores[1].pontos << " pontos" << endl;
     }
     else {
         if (jogadores[0].pontos > jogadores[1].pontos) {
-            cout << "Vencedor\t" << jogadores[0].nome << "\t" << jogadores[0].pontos << " pontos" << endl;
-            cout << "Segundo\t\t" << jogadores[1].nome << "\t" << jogadores[1].pontos << " pontos" << endl;
+            cout << jogadores[0].nome << "\t-\t" << jogadores[0].pontos << " pontos\t*Vencedor*" << endl;
+            cout << jogadores[1].nome << "\t-\t" << jogadores[1].pontos << " pontos" << endl;
         }
         else {
-            cout << "Vencedor\t" << jogadores[1].nome << "\t" << jogadores[1].pontos << " pontos" << endl;
-            cout << "Segundo\t\t" << jogadores[0].nome << "\t" << jogadores[0].pontos << " pontos" << endl;
+            cout << jogadores[1].nome << "\t-\t" << jogadores[1].pontos << " pontos\t*Vencedor*" << endl;
+            cout << jogadores[0].nome << "\t-\t" << jogadores[0].pontos << " pontos" << endl;
         }
     }
 
-    jogadoresArquivo[cont-1].nome = jogadores[0].nome;
+    strcpy(jogadoresArquivo[cont - 1].nome, jogadores[0].nome);
     jogadoresArquivo[cont-1].pontos = jogadores[0].pontos;
 
-    jogadoresArquivo[cont].nome = jogadores[1].nome;
+    strcpy(jogadoresArquivo[cont].nome, jogadores[1].nome);
     jogadoresArquivo[cont].pontos = jogadores[1].pontos;
     
+    // Chama a função com os elementos já ordenados
+    ordenaVetor(jogadoresArquivo, cont);
+
     // Abre o arquivo para escrita
     ofstream fout;
     fout.open("Ranking.txt");
