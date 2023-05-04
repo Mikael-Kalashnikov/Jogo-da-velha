@@ -10,19 +10,13 @@ int main() {
     int linha, coluna; // Posição escolhida pelo jogador
     bool fimdeJogo = false; // Variável de controle do fim do jogo
     string vencedor = ""; // Nome do jogador vencedor
-    string arquivo;
+    string arquivo; // Armazena nome do arquivo
     int numRodadas, nivel; // Número de rodadas
-    int lin, col;
+    int lin, col; // Armazena os valores das linhas e colunas de acordo com o tabuleiro escolhido
     int opc;
 
     do {
-        cout << "\n------MENU------\n"
-            << "[1] Novo jogo\n"
-            << "[2] Ranking 3x3\n"
-            << "[3] Ranking 4x4\n"
-            << "[4] Ranking 5x5\n"
-            << "[5] Sair\n"
-            << "----------------\n";
+        exibeMenu();
         cin >> opc;
 
         if (opc < 1 || opc > 5) {
@@ -43,12 +37,7 @@ int main() {
 
             // Solicita a quantidade de rodadas a serem jogadas
             do {
-                cout << "\nInforme a quantidade de rodadas a serem jogadas"
-                    << "\n[1] rodada\n"
-                    << "[3] rodadas\n"
-                    << "[5] rodadas\n"
-                    << "[7] rodadas\n"
-                    << "[9] rodadas\n";
+                exibeRodadas();
                 cin >> numRodadas;
                 if (numRodadas != 1 && numRodadas != 3 && numRodadas != 5 && numRodadas != 7 && numRodadas != 9) {
                     cout << "\nOpcao invalida. Tente novamente\n";
@@ -56,10 +45,7 @@ int main() {
             } while (numRodadas != 1 && numRodadas != 3 && numRodadas != 5 && numRodadas != 7 && numRodadas != 9);
 
             do {
-                cout << "\nInforme o nivel do jogo"
-                    << "\n[1] Tabuleiro 3x3\n"
-                    << "[2] Tabuleiro 4x4\n"
-                    << "[3] Tabuleiro 5x5\n";
+                exibeNivel();
                 cin >> nivel;
                 if (nivel != 1 && nivel != 2 && nivel != 3) {
                     cout << "\nOpcao invalida. Tente novamente\n";

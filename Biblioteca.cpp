@@ -4,6 +4,16 @@
 #include "Cabeçalho.h"
 using namespace std;
 
+// Exibe o menu na tela
+void exibeMenu() {
+    cout << "\n------MENU------\n"
+        << "[1] Novo jogo\n"
+        << "[2] Ranking 3x3\n"
+        << "[3] Ranking 4x4\n"
+        << "[4] Ranking 5x5\n"
+        << "[5] Sair\n"
+        << "----------------\n";
+}
 // Exibe as informações que foram passadas do arquivo para o vetor de ponteiro
 void ranking(Jogador* jogadores, int cont) {
     cout << "-----Ranking-----\n"
@@ -12,6 +22,23 @@ void ranking(Jogador* jogadores, int cont) {
         cout << jogadores[i].nome << "\t" << jogadores[i].pontos << endl;
     }
     cout << "-----------------\n";
+}
+
+// Exibe as opções de rodads na tela
+void exibeRodadas() {
+    cout << "\nInforme a quantidade de rodadas a serem jogadas"
+        << "\n[1] rodada\n"
+        << "[3] rodadas\n"
+        << "[5] rodadas\n"
+        << "[7] rodadas\n"
+        << "[9] rodadas\n";
+}
+
+void exibeNivel() {
+    cout << "\nInforme o nivel do jogo"
+        << "\n[1] Tabuleiro 3x3\n"
+        << "[2] Tabuleiro 4x4\n"
+        << "[3] Tabuleiro 5x5\n";
 }
 
 // Função para imprimir o tabuleiro

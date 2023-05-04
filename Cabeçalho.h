@@ -5,7 +5,16 @@ struct Jogador {
     int pontos;
 };
 
+// Exibe o menu na tela
+void exibeMenu();
+
+// Exibe as informações que foram passadas do arquivo para o vetor de ponteiro
 void ranking(Jogador*, int);
+
+// Exibe as opções de rodads na tela
+void exibeRodadas();
+
+void exibeNivel();
 
 // Função para imprimir o tabuleiro
 void tabuleiro(char** , int, int);
