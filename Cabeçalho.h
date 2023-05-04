@@ -8,16 +8,16 @@ struct Jogador {
 void ranking(Jogador*, int);
 
 // Função para imprimir o tabuleiro
-void tabuleiro(char [3][3]);
+void tabuleiro(char** , int, int);
 
 // Função para verificar se o jogador venceu
-bool checarVencedor(char [3][3], char);
+bool checarVencedor(char**, int, int , char);
 
 // Função para verificar se o jogo está empatado
-bool checarEmpate(char [3][3]);
+bool checarEmpate (char**, int, int );
 
 // Função para zerar todo o tabuleiro
-void resetarTabuleiro(char [3][3]);
+void resetarTabuleiro(char**, int, int);
 
 // Exibe o resultado do jogo atual
 void resultado(Jogador*);

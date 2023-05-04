@@ -15,25 +15,29 @@ void ranking(Jogador* jogadores, int cont) {
 }
 
 // Função para imprimir o tabuleiro
-void tabuleiro(char board[3][3]) {
-    cout << "  1 2 3" << endl;
-    for (int i = 0; i < 3; i++) {
+void tabuleiro(char** board, int lin, int col) {
+    cout << " ";
+    for (int index = 1; index <= lin; index++) {
+        cout << " " << index;
+    }
+    cout << endl;
+    for (int i = 0; i < lin; i++) {
         cout << i + 1 << " ";
-        for (int j = 0; j < 3; j++) {
+        for (int j = 0; j < col; j++) {
             cout << board[i][j] << " ";
         }
         cout << endl;
     }
 }
 // Função para verificar se o jogador venceu
-bool checarVencedor(char board[3][3], char player) {
+bool checarVencedor(char** board, int lin, int col, char player) {
     // Verificação das linhas
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < lin; i++) {
         if (board[i][0] == player && board[i][1] == player && board[i][2] == player)
             return true;
     }
     // Verificação das colunas
-    for (int j = 0; j < 3; j++) {
+    for (int j = 0; j < col; j++) {
         if (board[0][j] == player && board[1][j] == player && board[2][j] == player)
             return true;
     }
@@ -47,9 +51,9 @@ bool checarVencedor(char board[3][3], char player) {
 }
 
 // Função para verificar se o jogo está empatado
-bool checarEmpate(char board[3][3]) {
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
+bool checarEmpate(char** board, int lin, int col) {
+    for (int i = 0; i < lin; i++) {
+        for (int j = 0; j < col; j++) {
             if (board[i][j] == ' ')
                 return false;
         }
@@ -57,10 +61,10 @@ bool checarEmpate(char board[3][3]) {
     return true;
 }
 
-void resetarTabuleiro(char board[3][3]) {
+void resetarTabuleiro(char** board, int lin, int col) {
     // Preenche o tabuleiro com espaços em branco
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
+    for (int i = 0; i < lin; i++) {
+        for (int j = 0; j < col; j++) {
             board[i][j] = ' ';
         }
     }
